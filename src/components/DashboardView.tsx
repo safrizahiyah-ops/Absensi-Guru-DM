@@ -24,6 +24,7 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Calendar,
+  Scan,
 } from 'lucide-react';
 
 export const DashboardView: React.FC = () => {
@@ -34,6 +35,7 @@ export const DashboardView: React.FC = () => {
     currentTime,
     setActiveTab,
     setIsFormModalOpen,
+    setIsBarcodeScannerOpen,
     setEditingRecord,
   } = useAttendance();
 
@@ -206,6 +208,16 @@ export const DashboardView: React.FC = () => {
           >
             <PlusCircle className="w-4 h-4" />
             <span>MULAI ABSENSI</span>
+          </button>
+
+          <button
+            id="btn-scan-barcode-hero"
+            type="button"
+            onClick={() => setIsBarcodeScannerOpen(true)}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border-2 border-emerald-500/50 font-extrabold text-sm shadow-2xs transition-all active:scale-98"
+          >
+            <Scan className="w-4 h-4 text-emerald-700" />
+            <span>SCAN BARCODE GURU</span>
           </button>
 
           <button

@@ -3,6 +3,7 @@ import { AttendanceProvider, useAttendance } from './context/AttendanceContext';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { AttendanceModal } from './components/AttendanceModal';
+import { BarcodeAttendanceScannerModal } from './components/BarcodeAttendanceScannerModal';
 import { DashboardView } from './components/DashboardView';
 import { AttendanceListView } from './components/AttendanceListView';
 import { DailyReportView } from './components/DailyReportView';
@@ -17,7 +18,7 @@ import { SettingsView } from './components/SettingsView';
 import { CheckCircle2, AlertCircle, Info, AlertTriangle } from 'lucide-react';
 
 const MainAppLayout: React.FC = () => {
-  const { activeTab, toast } = useAttendance();
+  const { activeTab, toast, isBarcodeScannerOpen, setIsBarcodeScannerOpen } = useAttendance();
   const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false);
 
   const renderActiveView = () => {
@@ -68,6 +69,12 @@ const MainAppLayout: React.FC = () => {
 
       {/* Global Attendance Modal */}
       <AttendanceModal />
+
+      {/* Global Barcode & QR Scanner Modal */}
+      <BarcodeAttendanceScannerModal
+        isOpen={isBarcodeScannerOpen}
+        onClose={() => setIsBarcodeScannerOpen(false)}
+      />
 
       {/* Global Toast Notification */}
       {toast && (

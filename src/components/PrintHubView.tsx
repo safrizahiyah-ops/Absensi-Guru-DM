@@ -15,6 +15,7 @@ import {
   WeeklyRecapRow,
   MonthlyRecapRow,
 } from '../utils/exportUtils';
+import { downloadAllTeacherCardsPdf } from '../utils/barcodeUtils';
 import {
   Printer,
   FileText,
@@ -25,6 +26,9 @@ import {
   Copy,
   CheckCircle,
   ShieldCheck,
+  QrCode,
+  Barcode,
+  IdCard,
 } from 'lucide-react';
 
 export const PrintHubView: React.FC = () => {
@@ -344,6 +348,49 @@ export const PrintHubView: React.FC = () => {
               className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-colors"
             >
               <span>Buka Tampilan Bulanan</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Card 4: Kartu & Barcode Presensi Guru */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between space-y-4">
+          <div>
+            <div className="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center text-teal-700 mb-3">
+              <IdCard className="w-5 h-5" />
+            </div>
+            <h2 className="text-base font-bold text-slate-900">Kartu & Barcode Guru</h2>
+            <p className="text-xs text-slate-500 mt-1">
+              Cetak lembar kartu ID presensi berbarcode otomatis untuk seluruh {teachers.length} dewan guru MA/MTs Darul Mahfudz.
+            </p>
+
+            <div className="mt-4 pt-3 border-t border-slate-100 p-2.5 bg-teal-50/70 rounded-xl border border-teal-200/80 text-[11px] text-teal-900 flex items-center gap-2">
+              <QrCode className="w-4 h-4 text-teal-700 shrink-0" />
+              <span>Mencakup Barcode 1D (Code128), QR Code resmi, Logo madrasah, dan data NIP pengampu.</span>
+            </div>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await downloadAllTeacherCardsPdf(teachers, settings);
+                  showToast('Seluruh kartu barcode guru berhasil dicetak ke PDF.', 'success');
+                } catch (e) {
+                  showToast('Gagal membuat PDF kartu barcode.', 'error');
+                }
+              }}
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs shadow-xs transition-colors"
+            >
+              <Printer className="w-4 h-4" />
+              <span>Cetak Semua Kartu Guru (PDF)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('master_teachers')}
+              className="w-full inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-colors"
+            >
+              <span>Kelola Guru & Unduh Satuan</span>
             </button>
           </div>
         </div>

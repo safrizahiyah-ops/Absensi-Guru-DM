@@ -9,12 +9,14 @@ import {
   getTodayDateString,
   formatIndonesianDateShort,
 } from '../constants/schedule';
-import { X, Search, Check, AlertTriangle, User, BookOpen, School, Clock, Calendar, CheckCircle2 } from 'lucide-react';
+import { X, Search, Check, AlertTriangle, User, BookOpen, School, Clock, Calendar, CheckCircle2, Scan } from 'lucide-react';
 
 export const AttendanceModal: React.FC = () => {
   const {
     isFormModalOpen,
     setIsFormModalOpen,
+    isBarcodeScannerOpen,
+    setIsBarcodeScannerOpen,
     editingRecord,
     setEditingRecord,
     teachers,
@@ -296,9 +298,23 @@ export const AttendanceModal: React.FC = () => {
 
           {/* 3. Nama Guru with Search Dropdown */}
           <div className="relative">
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              3. Nama Guru
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                3. Nama Guru
+              </label>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsFormModalOpen(false);
+                  setIsBarcodeScannerOpen(true);
+                }}
+                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-colors"
+                title="Pindai barcode guru menggunakan kamera atau scanner USB"
+              >
+                <Scan className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Scan Barcode Guru</span>
+              </button>
+            </div>
             <div className="relative">
               <div className="relative flex items-center">
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />

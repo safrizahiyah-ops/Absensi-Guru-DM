@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAttendance } from '../context/AttendanceContext';
 import { formatIndonesianDate } from '../constants/schedule';
-import { Clock, Calendar, UserCheck, Menu, X, ShieldCheck } from 'lucide-react';
+import { Clock, Calendar, UserCheck, Menu, X, ShieldCheck, Scan } from 'lucide-react';
 
 interface NavbarProps {
   isMobileOpen: boolean;
@@ -9,7 +9,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ isMobileOpen, setIsMobileOpen }) => {
-  const { settings, currentTime, setIsFormModalOpen, setEditingRecord } = useAttendance();
+  const { settings, currentTime, setIsFormModalOpen, setEditingRecord, setIsBarcodeScannerOpen } = useAttendance();
 
   // Format real-time clock HH:mm:ss WIB
   const hours = String(currentTime.getHours()).padStart(2, '0');
@@ -92,6 +92,18 @@ export const Navbar: React.FC<NavbarProps> = ({ isMobileOpen, setIsMobileOpen })
                 </p>
               </div>
             </div>
+
+            {/* Barcode Scanner Action Button */}
+            <button
+              id="navbar-scan-barcode-btn"
+              type="button"
+              onClick={() => setIsBarcodeScannerOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 active:bg-emerald-200 text-emerald-800 border border-emerald-300 text-xs sm:text-sm font-bold shadow-2xs transition-colors"
+              title="Pindai Kartu Barcode Guru"
+            >
+              <Scan className="w-4 h-4 text-emerald-700" />
+              <span className="hidden sm:inline">Scan Barcode</span>
+            </button>
 
             {/* Quick Action Button */}
             <button

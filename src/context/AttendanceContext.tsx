@@ -33,6 +33,8 @@ interface AttendanceContextType {
   setActiveTab: (tab: ActiveTab) => void;
   isFormModalOpen: boolean;
   setIsFormModalOpen: (open: boolean) => void;
+  isBarcodeScannerOpen: boolean;
+  setIsBarcodeScannerOpen: (open: boolean) => void;
   editingRecord: AttendanceRecord | null;
   setEditingRecord: (record: AttendanceRecord | null) => void;
   currentTime: Date;
@@ -48,7 +50,7 @@ interface AttendanceContextType {
   ) => { success: boolean; error?: string };
   deleteAttendanceRecord: (id: string) => void;
   // Master CRUD
-  addTeacher: (teacher: Omit<Teacher, 'id'>) => void;
+  addTeacher: (teacher: Omit<Teacher, 'id'>) => Teacher;
   updateTeacher: (id: string, teacher: Partial<Teacher>) => void;
   deleteTeacher: (id: string) => void;
   addClassRoom: (classroom: Omit<ClassRoom, 'id'>) => void;
@@ -138,6 +140,7 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   // Navigation & UI states
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [isFormModalOpen, setIsFormModalOpen] = useState<boolean>(false);
+  const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState<boolean>(false);
   const [editingRecord, setEditingRecord] = useState<AttendanceRecord | null>(null);
   const [toast, setToast] = useState<ToastState | null>(null);
 
@@ -253,13 +256,14 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   // Teachers CRUD
-  const addTeacher = (teacherData: Omit<Teacher, 'id'>) => {
+  const addTeacher = (teacherData: Omit<Teacher, 'id'>): Teacher => {
     const newTeacher: Teacher = {
       ...teacherData,
       id: 't-' + Date.now(),
     };
     setTeachers((prev) => [...prev, newTeacher]);
-    showToast('Data guru berhasil ditambahkan.', 'success');
+    showToast('Data guru berhasil ditambahkan & barcode otomatis siap diunduh.', 'success');
+    return newTeacher;
   };
 
   const updateTeacher = (id: string, teacherData: Partial<Teacher>) => {
@@ -402,6 +406,8 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setActiveTab,
         isFormModalOpen,
         setIsFormModalOpen,
+        isBarcodeScannerOpen,
+        setIsBarcodeScannerOpen,
         editingRecord,
         setEditingRecord,
         currentTime,
